@@ -1,0 +1,4 @@
+Селектор	Название цели	Событие
+.mfeedback form input[type="submit"]	ObratniyZvonok	click
+.form-order1	Zakaz	submit
+.mfeedback form	Feedback	submit
