@@ -18,6 +18,7 @@ EventManager::getInstance()->addEventHandler("main", "OnEpilog", function () {
 
 	global $APPLICATION;
 	$APPLICATION->AddHeadString(Option::get("rodzeta.yandexmetricgoals", "yandex_metrika_code"), true);
+	$APPLICATION->AddHeadString(Option::get("rodzeta.yandexmetricgoals", "google_analytics_code"), true);
 
 	if (is_readable($_SERVER["DOCUMENT_ROOT"] . \Rodzeta\Yandexmetricgoals\Utils::CACHE_NAME)) {
 		$APPLICATION->AddHeadScript(\Rodzeta\Yandexmetricgoals\Utils::CACHE_NAME);

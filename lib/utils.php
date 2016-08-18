@@ -24,7 +24,8 @@ final class Utils {
 			return;
 		}
 
-		$counterId = Option::get("rodzeta.yandexmetricgoals", "yandex_metrika_id");
+		$counterId = trim(Option::get("rodzeta.yandexmetricgoals", "yandex_metrika_id"));
+		$counterIdGoogleAnalytics = trim(Option::get("rodzeta.yandexmetricgoals", "google_analytics_id"));
 		$targets = array();
 		$i = 0;
 		while (($row = fgetcsv($fcsv, 4000, "\t")) !== FALSE) {
@@ -32,21 +33,25 @@ final class Utils {
 			if ($i == 1) {
 				continue;
 			}
-			$targets[] = '
-				BX.bind(
-					document.querySelector("' . addslashes(trim($row[0])) . '"),
-					"' . trim($row[2]) . '",
-					function () {
-						yaCounter' . trim($counterId) . '.reachGoal("' . trim($row[1]) . '");
-					}
-				);
-			';
+			if ($counterId != "" || $counterIdGoogleAnalytics != "") {
+				$targets[] = '
+					BX.bind(
+						document.querySelector("' . addslashes(trim($row[0])) . '"),
+						"' . trim($row[2]) . '",
+						function () {
+							' . ($counterId != ""? ('yaCounter' . $counterId . '.reachGoal("' . trim($row[1]) . '");') : "") . '
+							' . ($counterIdGoogleAnalytics != ""? ('ga("send", "event", "' . trim($row[3]) . '", "' . trim($row[4]) . '");') : "") . '
+						}
+					);
+				';
+			}
 		}
 		fclose($fcsv);
 
 		file_put_contents(
 			$basePath . self::CACHE_NAME,
-			'BX.ready(function () { ' . implode("\n", $targets)	. ' });'
+			count($targets)?
+				('BX.ready(function () { ' . implode("\n", $targets)	. ' });') : ""
 		);
 	}
 
