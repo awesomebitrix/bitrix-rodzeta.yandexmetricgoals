@@ -34,20 +34,40 @@ final class Utils {
 				continue;
 			}
 			if ($counterId != "" || $counterIdGoogleAnalytics != "") {
-				$targets[] = '
-					BX.bind(
-						document.querySelector("' . addslashes(trim($row[0])) . '"),
-						"' . trim($row[2]) . '",
-						function () {
-							' . ($counterId != ""? ('if (typeof yaCounter' . $counterId . ' != "undefined") {
-								yaCounter' . $counterId . '.reachGoal("' . trim($row[1]) . '");
-							} ') : "") . '
-							' . ($counterIdGoogleAnalytics != ""? ('if (typeof ga != "undefined") {
-								ga("send", "event", "' . trim($row[3]) . '", "' . trim($row[4]) . '");') : "") . '
-							}
+				$event = trim($row[2]);
+				$selector = addslashes(trim($row[0]));
+				$sendTargetCode = "";
+				if ($counterId != "") {
+					$sendTargetCode .= '
+								if (typeof yaCounter' . $counterId . ' != "undefined") {
+									yaCounter' . $counterId . '.reachGoal("' . trim($row[1]) . '");
+								}
+					';
+				}
+				if ($counterIdGoogleAnalytics != "") {
+					$sendTargetCode .= '
+								if (typeof ga != "undefined") {
+									ga("send", "event", "' . trim($row[3]) . '", "' . trim($row[4]) . '");
+								}
+					';
+				}
+				if ($event == "ready") {
+					$targets[] = '
+						if (document.querySelector("' . $selector . '")) {
+							' . $sendTargetCode . '
 						}
-					);
-				';
+					';
+				} else {
+					$targets[] = '
+						BX.bind(
+							document.querySelector("' . $selector . '"),
+							"' . $event . '",
+							function () {
+								' . $sendTargetCode . '
+							}
+						);
+					';
+				}
 			}
 		}
 		fclose($fcsv);
