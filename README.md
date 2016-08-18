@@ -21,10 +21,10 @@
 
 ### Пример содержимого файла rodzeta.yandexmetricgoals.csv
 
-    Селектор    Название цели   Событие
-    .mfeedback form input[type="submit"]    ObratniyZvonok  click
-    .form-order1    Zakaz   submit
-    .mfeedback form Feedback    submit
+    Селектор    YM-Название цели    Событие GA-объект   GA-тип взаимодействия
+    .mfeedback form input[type="submit"]    ObratniyZvonok  click   feedback    ObratniyZvonok
+    .form-order1    Zakaz   submit  order   Zakaz
+    .mfeedback form Feedback    submit  feedback    Feedback
 
 ## Описание техподдержки и контактных данных
 
