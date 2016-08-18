@@ -37,20 +37,25 @@ final class Utils {
 				$event = trim($row[2]);
 				$selector = addslashes(trim($row[0]));
 				$sendTargetCode = "";
-				if ($counterId != "") {
+				if ($counterId != "" && !empty($row[1]) && trim($row[1]) != "") {
 					$sendTargetCode .= '
 								if (typeof yaCounter' . $counterId . ' != "undefined") {
 									yaCounter' . $counterId . '.reachGoal("' . trim($row[1]) . '");
 								}
 					';
 				}
-				if ($counterIdGoogleAnalytics != "") {
+				if ($counterIdGoogleAnalytics != "" && !empty($row[3]) && !empty($row[4])
+						 && trim($row[3]) != "" && trim($row[4]) != "") {
 					$sendTargetCode .= '
 								if (typeof ga != "undefined") {
 									ga("send", "event", "' . trim($row[3]) . '", "' . trim($row[4]) . '");
 								}
 					';
 				}
+				if (trim($sendTargetCode) == "") {
+					continue;
+				}
+
 				if ($event == "ready") {
 					$targets[] = '
 						if (document.querySelector("' . $selector . '")) {
