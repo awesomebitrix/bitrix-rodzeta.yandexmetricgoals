@@ -32,6 +32,7 @@ $tabControl = new CAdminTabControl("tabControl", array(
 
 ?>
 
+<?php /*
 <?= BeginNote() ?>
 <p>
 	<b>Как работает</b>
@@ -45,6 +46,7 @@ $tabControl = new CAdminTabControl("tabControl", array(
 	Для отключения отправки целей из csv-файла нажмите "Сбросить кеш целей".
 </p>
 <?= EndNote() ?>
+*/ ?>
 
 <?php
 
