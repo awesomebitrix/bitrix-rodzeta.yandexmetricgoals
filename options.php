@@ -171,13 +171,13 @@ $tabControl->begin();
 							<td>
 								<input type="text" placeholder="Объект (Google Analytics)"
 									name="analytics_targets[<?= $i ?>][3]"
-									value="<?= htmlspecialcharsex($targets[3]) ?>"
+									value="<?= htmlspecialcharsex($target[3]) ?>"
 									style="width:96%;">
 							</td>
 							<td>
 								<input type="text" placeholder="Тип взаимодействия (Google Analytics)"
 									name="analytics_targets[<?= $i ?>][4]"
-									value="<?= htmlspecialcharsex($targets[4]) ?>"
+									value="<?= htmlspecialcharsex($target[4]) ?>"
 									style="width:96%;">
 							</td>
 						</tr>
