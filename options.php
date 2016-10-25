@@ -28,6 +28,13 @@ $tabControl = new CAdminTabControl("tabControl", array(
 		"TAB" => Loc::getMessage("RODZETA_YANDEXMETRICGOALS_MAIN_TAB_SET"),
 		"TITLE" => Loc::getMessage("RODZETA_YANDEXMETRICGOALS_MAIN_TAB_TITLE_SET"),
   ),
+  array(
+		"DIV" => "edit2",
+		"TAB" => Loc::getMessage("RODZETA_YANDEXMETRICGOALS_DATA_TAB_SET"),
+		"TITLE" => Loc::getMessage("RODZETA_YANDEXMETRICGOALS_DATA_TAB_TITLE_SET", array(
+			"#FILE#" => \Rodzeta\Yandexmetricgoals\Utils::SRC_NAME)
+		),
+  ),
 ));
 
 ?>
@@ -57,6 +64,7 @@ if ($request->isPost() && check_bitrix_sessid()) {
 		Option::set("rodzeta.yandexmetricgoals", "google_analytics_code", $request->getPost("google_analytics_code"));
 		Option::set("rodzeta.yandexmetricgoals", "google_analytics_id", $request->getPost("google_analytics_id"));
 
+		\Rodzeta\Yandexmetricgoals\Utils::saveToCsv($request->getPost("analytics_targets"));
 		\Rodzeta\Yandexmetricgoals\Utils::createCache();
 
 		CAdminMessage::showMessage(array(
@@ -127,6 +135,91 @@ $tabControl->begin();
 		<td class="adm-detail-content-cell-r" width="50%">
 			<textarea name="google_analytics_code" rows="10" cols="60"
 				><?= Option::get("rodzeta.yandexmetricgoals", "google_analytics_code") ?></textarea>
+		</td>
+	</tr>
+
+	<?php $tabControl->beginNextTab() ?>
+
+	<tr>
+		<td colspan="2">
+			<table width="100%">
+				<tbody>
+					<?php
+					$i = 0;
+					foreach (\Rodzeta\Yandexmetricgoals\Utils::getTargetsFromCsv() as $target) {
+						$i++;
+					?>
+						<tr>
+							<td>
+								<input type="text" placeholder="Селектор"
+									name="analytics_targets[<?= $i ?>][0]"
+									value="<?= htmlspecialcharsex($target[0]) ?>"
+									style="width:96%;">
+							</td>
+							<td>
+								<input type="text" placeholder="Название цели (Яндекс.Метрика)"
+									name="analytics_targets[<?= $i ?>][1]"
+									value="<?= htmlspecialcharsex($target[1]) ?>"
+									style="width:96%;">
+							</td>
+							<td>
+								<input type="text" placeholder="Событие"
+									name="analytics_targets[<?= $i ?>][2]"
+									value="<?= htmlspecialcharsex($target[2]) ?>"
+									style="width:96%;">
+							</td>
+							<td>
+								<input type="text" placeholder="Объект (Google Analytics)"
+									name="analytics_targets[<?= $i ?>][3]"
+									value="<?= htmlspecialcharsex($targets[3]) ?>"
+									style="width:96%;">
+							</td>
+							<td>
+								<input type="text" placeholder="Тип взаимодействия (Google Analytics)"
+									name="analytics_targets[<?= $i ?>][4]"
+									value="<?= htmlspecialcharsex($targets[4]) ?>"
+									style="width:96%;">
+							</td>
+						</tr>
+					<?php } ?>
+					<?php foreach (range(1, 20) as $n) {
+						$i++;
+					?>
+						<tr>
+							<td>
+								<input type="text" placeholder="Селектор"
+									name="analytics_targets[<?= $i ?>][0]"
+									value=""
+									style="width:96%;">
+							</td>
+							<td>
+								<input type="text" placeholder="Название цели (Яндекс.Метрика)"
+									name="analytics_targets[<?= $i ?>][1]"
+									value=""
+									style="width:96%;">
+							</td>
+							<td>
+								<input type="text" placeholder="Событие"
+									name="analytics_targets[<?= $i ?>][2]"
+									value=""
+									style="width:96%;">
+							</td>
+							<td>
+								<input type="text" placeholder="Объект (Google Analytics)"
+									name="analytics_targets[<?= $i ?>][3]"
+									value=""
+									style="width:96%;">
+							</td>
+							<td>
+								<input type="text" placeholder="Тип взаимодействия (Google Analytics)"
+									name="analytics_targets[<?= $i ?>][4]"
+									value=""
+									style="width:96%;">
+							</td>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>
 		</td>
 	</tr>
 

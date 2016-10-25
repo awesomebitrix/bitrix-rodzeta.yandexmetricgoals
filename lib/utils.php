@@ -14,41 +14,64 @@ final class Utils {
 	const CACHE_NAME = "/upload/cache.rodzeta.yandexmetricgoals.js";
 	const SRC_NAME = "/upload/rodzeta.yandexmetricgoals.csv";
 
-	static function createCache() {
+	static function getTargetsFromCsv() {
 		$basePath = $_SERVER["DOCUMENT_ROOT"];
+		$targets = array();
 		if (!file_exists($basePath . self::SRC_NAME)) {
-			return;
+			return $targets;
 		}
 		$fcsv = fopen($basePath . self::SRC_NAME, "r");
-		if ($fcsv === FALSE) {
+		if ($fcsv === false) {
+			return $targets;
+		}
+		while (($row = fgetcsv($fcsv, 4000, "\t")) !== false) {
+			$targets[] = array_map("trim", $row);
+		}
+		fclose($fcsv);
+		return $targets;
+	}
+
+	static function saveToCsv($targets) {
+		$basePath = $_SERVER["DOCUMENT_ROOT"];
+		$fcsv = fopen($basePath . self::SRC_NAME, "w");
+		if ($fcsv === false) {
 			return;
 		}
+		foreach ($targets as $row) {
+			$row = array_map("trim", $row);
+			if (count(array_filter($row)) == 0) {
+				continue;
+			}
+			fputcsv($fcsv, $row, "\t");
+		}
+		fclose($fcsv);
+	}
 
+	static function createCache() {
+		$basePath = $_SERVER["DOCUMENT_ROOT"];
 		$counterId = trim(Option::get("rodzeta.yandexmetricgoals", "yandex_metrika_id"));
 		$counterIdGoogleAnalytics = trim(Option::get("rodzeta.yandexmetricgoals", "google_analytics_id"));
 		$targets = array();
-		$i = 0;
-		while (($row = fgetcsv($fcsv, 4000, "\t")) !== FALSE) {
-			$i++;
-			if ($i == 1) {
-				continue;
-			}
+		foreach (self::getTargetsFromCsv() as $row) {
 			if ($counterId != "" || $counterIdGoogleAnalytics != "") {
-				$event = trim($row[2]);
-				$selector = addslashes(trim($row[0]));
+				$event = $row[2];
+				$selector = addslashes($row[0]);
 				$sendTargetCode = "";
-				if ($counterId != "" && !empty($row[1]) && trim($row[1]) != "") {
+
+				// Яндекс.Метрика js-code
+				if ($counterId != "" && !empty($row[1])) {
 					$sendTargetCode .= '
 								if (typeof yaCounter' . $counterId . ' != "undefined") {
-									yaCounter' . $counterId . '.reachGoal("' . trim($row[1]) . '");
+									yaCounter' . $counterId . '.reachGoal("' . $row[1] . '");
 								}
 					';
 				}
-				if ($counterIdGoogleAnalytics != "" && !empty($row[3]) && !empty($row[4])
-						 && trim($row[3]) != "" && trim($row[4]) != "") {
+
+				// Google Analytics js-code
+				if ($counterIdGoogleAnalytics != "" && !empty($row[3]) && !empty($row[4])) {
 					$sendTargetCode .= '
 								if (typeof ga != "undefined") {
-									ga("send", "event", "' . trim($row[3]) . '", "' . trim($row[4]) . '");
+									ga("send", "event", "' . $row[3] . '", "' . $row[4] . '");
 								}
 					';
 				}
@@ -56,6 +79,7 @@ final class Utils {
 					continue;
 				}
 
+				// event bind js-code
 				if ($event == "ready") {
 					$targets[] = '
 						if (document.querySelector("' . $selector . '")) {
@@ -75,7 +99,6 @@ final class Utils {
 				}
 			}
 		}
-		fclose($fcsv);
 
 		file_put_contents(
 			$basePath . self::CACHE_NAME,
