@@ -26,8 +26,12 @@ function StorageInit() {
 }
 
 function Update($data) {
-	return;
-	//...
+	$options = [
+		"yandex_metrika_id" => $data["yandex_metrika_id"],
+		"yandex_metrika_code" => $data["yandex_metrika_code"],
+		"google_analytics_id" => $data["google_analytics_id"],
+		"google_analytics_code" => $data["google_analytics_code"],
+	];
 
 	\Encoding\PhpArray\Write(FILE_OPTIONS, $options);
 }

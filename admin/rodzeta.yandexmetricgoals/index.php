@@ -52,22 +52,19 @@ $currentOptions = array_merge([
 		</tr>
 
 		<tr>
-			<td class="adm-detail-content-cell-l" width="50%">
-				<label>ID счетчика Яндекс.Метрика</label>
-			</td>
-			<td class="adm-detail-content-cell-r" width="50%">
+			<td colspan="2">
 				<input type="text" size="30" name="yandex_metrika_id"
-					value="<?= $currentOptions["yandex_metrika_id"] ?>" ?>
+					placeholder="ID счетчика Яндекс.Метрика"
+					value="<?= htmlspecialcharsex($currentOptions["yandex_metrika_id"]) ?>"
+					style="width:100%">
 			</td>
 		</tr>
 
 		<tr>
-			<td class="adm-detail-content-cell-l" width="50%">
-				<label>Код счетчика</label>
-			</td>
-			<td class="adm-detail-content-cell-r" width="50%">
-				<textarea name="yandex_metrika_code" rows="10" cols="60"
-					><?= $currentOptions["yandex_metrika_code"] ?></textarea>
+			<td colspan="2">
+				<textarea name="yandex_metrika_code" rows="10"
+					placeholder="Код счетчика"
+					style="width:100%"><?= htmlspecialcharsex($currentOptions["yandex_metrika_code"]) ?></textarea>
 			</td>
 		</tr>
 
@@ -76,22 +73,19 @@ $currentOptions = array_merge([
 		</tr>
 
 		<tr>
-			<td class="adm-detail-content-cell-l" width="50%">
-				<label>Идентификатор отслеживания</label>
-			</td>
-			<td class="adm-detail-content-cell-r" width="50%">
+			<td colspan="2">
 				<input type="text" size="30" name="google_analytics_id"
-					value="<?= $currentOptions["google_analytics_id"] ?>" ?>
+					placeholder="Идентификатор отслеживания"
+					value="<?= htmlspecialcharsex($currentOptions["google_analytics_id"]) ?>"
+					style="width:100%">
 			</td>
 		</tr>
 
 		<tr>
-			<td class="adm-detail-content-cell-l" width="50%">
-				<label>Код отслеживания</label>
-			</td>
-			<td class="adm-detail-content-cell-r" width="50%">
-				<textarea name="google_analytics_code" rows="10" cols="60"
-					><?= $currentOptions["google_analytics_code"] ?></textarea>
+			<td colspan="2">
+				<textarea name="google_analytics_code" rows="10"
+					placeholder="Код отслеживания"
+					style="width:100%"><?= htmlspecialcharsex($currentOptions["google_analytics_code"]) ?></textarea>
 			</td>
 		</tr>
 
@@ -99,7 +93,7 @@ $currentOptions = array_merge([
 
 </form>
 
-<?php if ($formSaved) { ?>
+<?php if (0 && $formSaved) { ?>
 
 	<script>
 		// close after submit
