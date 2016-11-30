@@ -94,7 +94,7 @@ if (empty($currentOptions)) {
 
 </form>
 
-<?php if (0 && $formSaved) { ?>
+<?php if ($formSaved) { ?>
 
 	<script>
 		// close after submit
