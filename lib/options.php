@@ -7,6 +7,8 @@
 
 namespace Rodzeta\Yandexmetricgoals\Options;
 
+use const \Rodzeta\Yandexmetricgoals\FILE_OPTIONS;
+
 function Update($data) {
 	$options = [
 		"yandex_metrika_id" => $data["yandex_metrika_id"],
@@ -14,13 +16,10 @@ function Update($data) {
 		"google_analytics_id" => $data["google_analytics_id"],
 		"google_analytics_code" => $data["google_analytics_code"],
 	];
-	\Encoding\PhpArray\Write(
-		\Rodzeta\Yandexmetricgoals\FILE_OPTIONS . "/options.php",
-		$options
-	);
+	\Encoding\PhpArray\Write(FILE_OPTIONS . "/options.php", $options);
 }
 
 function Select() {
-	$fname = \Rodzeta\Yandexmetricgoals\FILE_OPTIONS . "/options.php";
+	$fname = FILE_OPTIONS . "/options.php";
 	return is_readable($fname)? include $fname : [];
 }
