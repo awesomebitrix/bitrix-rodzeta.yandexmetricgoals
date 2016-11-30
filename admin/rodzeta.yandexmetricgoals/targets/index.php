@@ -29,15 +29,17 @@ StorageInit();
 
 $formSaved = check_bitrix_sessid() && $request->isPost();
 if ($formSaved) {
-	Options\Update($request->getPostList());
+	Targets\Update($request->getPostList());
 }
 
+/*
 $currentOptions = array_merge([
 	"yandex_metrika_id" => "",
 	"yandex_metrika_code" => "",
 	"google_analytics_id" => "",
 	"google_analytics_code" => "",
-], Options\Select());
+], Targets\Select());
+*/
 
 ?>
 
@@ -46,42 +48,13 @@ $currentOptions = array_merge([
 
 	<table width="100%">
 
-		<tr>
-			<td colspan="2">
-				<div class="adm-detail-title">Настройки для Яндекс.Метрика</div>
-
-				<input type="text" size="30" name="yandex_metrika_id"
-					placeholder="ID счетчика Яндекс.Метрика"
-					value="<?= htmlspecialcharsex($currentOptions["yandex_metrika_id"]) ?>"
-					style="width:100%">
-
-				<textarea name="yandex_metrika_code" rows="10"
-					placeholder="Код счетчика"
-					style="width:100%"><?= htmlspecialcharsex($currentOptions["yandex_metrika_code"]) ?></textarea>
-			</td>
-		</tr>
-
-		<tr>
-			<td colspan="2">
-				<div class="adm-detail-title">Настройки для Google Analytics</div>
-
-				<input type="text" size="30" name="google_analytics_id"
-					placeholder="Идентификатор отслеживания"
-					value="<?= htmlspecialcharsex($currentOptions["google_analytics_id"]) ?>"
-					style="width:100%">
-
-				<textarea name="google_analytics_code" rows="10"
-					placeholder="Код отслеживания"
-					style="width:100%"><?= htmlspecialcharsex($currentOptions["google_analytics_code"]) ?></textarea>
-
-			</td>
-		</tr>
+		<!-- ... -->
 
 	</table>
 
 </form>
 
-<?php if ($formSaved) { ?>
+<?php if (0 && $formSaved) { ?>
 
 	<script>
 		// close after submit
