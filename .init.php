@@ -14,6 +14,8 @@ define(__NAMESPACE__ . "\LIB", __DIR__  . "/lib/");
 define(__NAMESPACE__ . "\FILE_OPTIONS", $_SERVER["DOCUMENT_ROOT"] . "/upload/" . $_SERVER["SERVER_NAME"] . "/." . ID . "/default.php");
 
 require LIB . "encoding/php-array.php";
+require LIB . "options.php";
+require LIB . "targets.php";
 
 function StorageInit() {
 	$path = dirname(FILE_OPTIONS);
