@@ -32,24 +32,64 @@ if ($formSaved) {
 	Targets\Update($request->getPostList());
 }
 
-/*
-$currentOptions = array_merge([
-	"yandex_metrika_id" => "",
-	"yandex_metrika_code" => "",
-	"google_analytics_id" => "",
-	"google_analytics_code" => "",
-], Targets\Select());
-*/
+$currentOptions = Targets\Select();
+if (empty($currentOptions)) {
+	// default example
+	$currentOptions = [[
+		'.mfeedback form input[type="submit"]',
+		'ObratniyZvonok',
+		'click',
+		'feedback',
+		'ObratniyZvonok',
+	]];
+}
 
 ?>
 
 <form action="" method="post">
 	<?= bitrix_sessid_post() ?>
 
-	<table width="100%">
-
-		<!-- ... -->
-
+	<table width="100%" class="js-table-autoappendrows">
+		<tbody>
+			<?php
+			$i = 0;
+			foreach (AppendValues($currentOptions, 5, ["", "", "", "", ""]) as $target) {
+				$i++;
+			?>
+				<tr data-idx="<?= $i ?>">
+					<td>
+						<input type="text" placeholder="Селектор"
+							name="analytics_targets[<?= $i ?>][0]"
+							value="<?= htmlspecialcharsex($target[0]) ?>"
+							style="width:96%;">
+					</td>
+					<td>
+						<input type="text" placeholder="Название цели (Яндекс.Метрика)"
+							name="analytics_targets[<?= $i ?>][1]"
+							value="<?= htmlspecialcharsex($target[1]) ?>"
+							style="width:96%;">
+					</td>
+					<td>
+						<input type="text" placeholder="Событие"
+							name="analytics_targets[<?= $i ?>][2]"
+							value="<?= htmlspecialcharsex($target[2]) ?>"
+							style="width:96%;">
+					</td>
+					<td>
+						<input type="text" placeholder="Объект (Google Analytics)"
+							name="analytics_targets[<?= $i ?>][3]"
+							value="<?= htmlspecialcharsex($target[3]) ?>"
+							style="width:96%;">
+					</td>
+					<td>
+						<input type="text" placeholder="Тип взаимодействия (Google Analytics)"
+							name="analytics_targets[<?= $i ?>][4]"
+							value="<?= htmlspecialcharsex($target[4]) ?>"
+							style="width:96%;">
+					</td>
+				</tr>
+			<?php } ?>
+		</tbody>
 	</table>
 
 </form>
@@ -74,3 +114,48 @@ $currentOptions = array_merge([
 	</script>
 
 <?php } ?>
+
+<script>
+
+BX.ready(function () {
+	"use strict";
+
+	// init options
+	//...
+
+	// autoappend rows
+	function makeAutoAppend($table) {
+		function bindEvents($row) {
+			for (let $input of $row.querySelectorAll('input[type="text"]')) {
+				$input.addEventListener("change", function (event) {
+					let $tr = event.target.closest("tr");
+					let $trLast = $table.rows[$table.rows.length - 1];
+					if ($tr != $trLast) {
+						return;
+					}
+					$table.insertRow(-1);
+					$trLast = $table.rows[$table.rows.length - 1];
+					$trLast.innerHTML = $tr.innerHTML;
+					let idx = parseInt($tr.getAttribute("data-idx")) + 1;
+					$trLast.setAttribute("data-idx", idx);
+					for (let $input of $trLast.querySelectorAll("input,select")) {
+						let name = $input.getAttribute("name");
+						if (name) {
+							$input.setAttribute("name", name.replace(/([a-zA-Z0-9])\[\d+\]/, "$1[" + idx + "]"));
+						}
+					}
+					bindEvents($trLast);
+				});
+			}
+		}
+		for (let $row of document.querySelectorAll(".js-table-autoappendrows tr")) {
+			bindEvents($row);
+		}
+	}
+	for (let $table of document.querySelectorAll(".js-table-autoappendrows")) {
+		makeAutoAppend($table);
+	}
+
+});
+
+</script>

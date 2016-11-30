@@ -39,6 +39,27 @@ EventManager::getInstance()->addEventHandler("main", "OnPanelCreate", function (
 		"MAIN_SORT" => 2000,
 		"SORT"      => 20
 	]);
+
+	$link = "javascript:" . $GLOBALS["APPLICATION"]->GetPopupLink([
+		"URL" => URL_ADMIN . "targets/",
+		"PARAMS" => [
+			"resizable" => true,
+			//"width" => 780,
+			//"height" => 570,
+			//"min_width" => 400,
+			//"min_height" => 200,
+			"buttons" => "[BX.CDialog.prototype.btnClose]"
+		]
+	]);
+	$GLOBALS["APPLICATION"]->AddPanelButton([
+		"HREF" => $link,
+		"ICON"  => "bx-panel-site-structure-icon",
+		//"SRC" => URL_ADMIN . "/icon.gif",
+		"TEXT"  => "Настройка целей",
+		"ALT" => "Настройка целей Яндекс.Метрика и Google Analytics",
+		"MAIN_SORT" => 2000,
+		"SORT"      => 30
+	]);
 });
 
 EventManager::getInstance()->addEventHandler("main", "OnEpilog", function () {
