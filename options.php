@@ -1,9 +1,9 @@
 <?php
-/***********************************************************************************************
+/*******************************************************************************
  * rodzeta.yandexmetricgoals - Yandex Metrika targets assignements
  * Copyright 2016 Semenov Roman
  * MIT License
- ************************************************************************************************/
+ ******************************************************************************/
 
 defined('B_PROLOG_INCLUDED') and (B_PROLOG_INCLUDED === true) or die();
 
@@ -38,22 +38,6 @@ $tabControl = new CAdminTabControl("tabControl", array(
 ));
 
 ?>
-
-<?php /*
-<?= BeginNote() ?>
-<p>
-	<b>Как работает</b>
-	<ul>
-		<li>загрузите или создайте файл <b><a href="<?= \Rodzeta\Yandexmetricgoals\Utils::SRC_NAME ?>">rodzeta.yandexmetricgoals.csv</a></b> в папке /upload/ с помощью
-			<a target="_blank" href="/bitrix/admin/fileman_file_edit.php?path=<?= urlencode(\Rodzeta\Yandexmetricgoals\Utils::SRC_NAME) ?>">стандартного файлового менеджера</a>;
-		<li>после изменений в файле rodzeta.yandexmetricgoals.csv - нажмите в настройке модуля кнопку "Применить настройки";
-	</ul>
-</p>
-<p>
-	Для отключения отправки целей из csv-файла нажмите "Сбросить кеш целей".
-</p>
-<?= EndNote() ?>
-*/ ?>
 
 <?php
 

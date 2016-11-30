@@ -1,11 +1,13 @@
 <?php
-/***********************************************************************************************
+/*******************************************************************************
  * rodzeta.yandexmetricgoals - Yandex Metrika targets assignements
  * Copyright 2016 Semenov Roman
  * MIT License
- ************************************************************************************************/
+ ******************************************************************************/
 
-defined('B_PROLOG_INCLUDED') and (B_PROLOG_INCLUDED === true) or die();
+// NOTE this file must compatible with php 5.3
+
+defined("B_PROLOG_INCLUDED") and (B_PROLOG_INCLUDED === true) or die();
 
 use Bitrix\Main\Application;
 use Bitrix\Main\Loader;
@@ -16,7 +18,7 @@ Loc::loadMessages(__FILE__);
 
 class rodzeta_yandexmetricgoals extends CModule {
 
-	var $MODULE_ID = "rodzeta.yandexmetricgoals"; // FIX for bitrix rules
+	var $MODULE_ID = "rodzeta.yandexmetricgoals"; // NOTE for showing module in /bitrix/admin/
 
 	public $MODULE_VERSION;
 	public $MODULE_VERSION_DATE;
@@ -49,12 +51,40 @@ class rodzeta_yandexmetricgoals extends CModule {
 		$this->PARTNER_URI = "http://rodzeta.ru/";
 	}
 
+	function InstallFiles() {
+		CopyDirFiles(
+			$_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/" . $this->MODULE_ID . "/install/admin/" . $this->MODULE_ID,
+			$_SERVER["DOCUMENT_ROOT"] . "/bitrix/admin/" . $this->MODULE_ID,
+			true, true
+		);
+
+		return true;
+	}
+
+	function UninstallFiles() {
+		DeleteDirFilesEx("/bitrix/admin/" . $this->MODULE_ID);
+		return true;
+	}
+
 	function DoInstall() {
+		// check module requirements
+		global $APPLICATION;
+		if (version_compare(PHP_VERSION, "7", "<")) {
+			$APPLICATION->ThrowException(Loc::getMessage("RODZETA_REQUIREMENTS_PHP_VERSION"));
+			return false;
+		}
+		if (!defined("BX_UTF")) {
+			$APPLICATION->ThrowException(Loc::getMessage("RODZETA_REQUIREMENTS_BITRIX_UTF8"));
+			return false;
+		}
+
 		ModuleManager::registerModule($this->MODULE_ID);
 		RegisterModuleDependences("main", "OnPageStart", $this->MODULE_ID);
+		$this->InstallFiles();
 	}
 
 	function DoUninstall() {
+		$this->UninstallFiles();
 		UnRegisterModuleDependences("main", "OnPageStart", $this->MODULE_ID);
 		ModuleManager::unregisterModule($this->MODULE_ID);
 	}
