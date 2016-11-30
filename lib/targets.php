@@ -10,7 +10,13 @@ namespace Rodzeta\Yandexmetricgoals\Targets;
 use const \Rodzeta\Yandexmetricgoals\{FILE_OPTIONS, FILE_JS};
 
 function Update($data) {
-	$targetsData = $data["analytics_targets"];
+	$targetsData = [];
+	foreach ($data["analytics_targets"] as $row) {
+		$row = array_map("trim", $row);
+		if (count(array_filter($row))) {
+			$targetsData[] = $row;
+		}
+	}
 	CreateCache($targetsData);
 	\Encoding\PhpArray\Write(FILE_OPTIONS . "/targets.php", $targetsData);
 }
