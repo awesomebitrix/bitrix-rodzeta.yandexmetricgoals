@@ -11,7 +11,12 @@ define(__NAMESPACE__ . "\ID", "rodzeta.yandexmetricgoals");
 define(__NAMESPACE__ . "\URL_ADMIN", "/bitrix/admin/" . ID . "/");
 define(__NAMESPACE__ . "\APP", __DIR__ . "/");
 define(__NAMESPACE__ . "\LIB", __DIR__  . "/lib/");
-define(__NAMESPACE__ . "\FILE_OPTIONS", $_SERVER["DOCUMENT_ROOT"] . "/upload/" . $_SERVER["SERVER_NAME"] . "/." . ID);
+
+define(__NAMESPACE__ . "\FILE_OPTIONS",
+	$_SERVER["DOCUMENT_ROOT"] . "/upload/" . $_SERVER["SERVER_NAME"] . "/." . ID);
+
+define(__NAMESPACE__ . "\FILE_JS",
+	"/upload/" . $_SERVER["SERVER_NAME"] . "/." . ID . "/script.js");
 
 require LIB . "encoding/php-array.php";
 require LIB . "options.php";

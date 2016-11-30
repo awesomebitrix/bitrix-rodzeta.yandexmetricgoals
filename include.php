@@ -9,7 +9,7 @@ namespace Rodzeta\Yandexmetricgoals;
 
 defined("B_PROLOG_INCLUDED") and (B_PROLOG_INCLUDED === true) or die();
 
-use Bitrix\Main\{Loader, EventManager, Config\Option};
+use Bitrix\Main\{Loader, EventManager};
 
 require __DIR__ . "/.init.php";
 
@@ -67,10 +67,11 @@ EventManager::getInstance()->addEventHandler("main", "OnEpilog", function () {
 		return;
 	}
 
-	$GLOBALS["APPLICATION"]->AddHeadString(Option::get("rodzeta.yandexmetricgoals", "yandex_metrika_code"), true);
-	$GLOBALS["APPLICATION"]->AddHeadString(Option::get("rodzeta.yandexmetricgoals", "google_analytics_code"), true);
+	$options = Options\Select();
+	$GLOBALS["APPLICATION"]->AddHeadString($options["yandex_metrika_code"], true);
+	$GLOBALS["APPLICATION"]->AddHeadString($options["google_analytics_code"], true);
 
-	if (is_readable($_SERVER["DOCUMENT_ROOT"] . Utils::CACHE_NAME)) {
-		$GLOBALS["APPLICATION"]->AddHeadScript(Utils::CACHE_NAME);
+	if (is_readable(FILE_JS)) {
+		$GLOBALS["APPLICATION"]->AddHeadScript(FILE_JS);
 	}
 });
