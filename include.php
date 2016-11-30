@@ -71,7 +71,7 @@ EventManager::getInstance()->addEventHandler("main", "OnEpilog", function () {
 	$GLOBALS["APPLICATION"]->AddHeadString($options["yandex_metrika_code"], true);
 	$GLOBALS["APPLICATION"]->AddHeadString($options["google_analytics_code"], true);
 
-	if (is_readable(FILE_JS)) {
-		$GLOBALS["APPLICATION"]->AddHeadScript(FILE_JS);
+	if (is_readable($_SERVER["DOCUMENT_ROOT"] . FILE_JS)) {
+		$GLOBALS["APPLICATION"]->AddHeadScript($_SERVER["DOCUMENT_ROOT"] . FILE_JS);
 	}
 });
