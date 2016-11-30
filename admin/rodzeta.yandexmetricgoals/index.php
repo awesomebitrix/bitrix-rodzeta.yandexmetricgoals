@@ -47,45 +47,34 @@ $currentOptions = array_merge([
 
 	<table width="100%">
 
-		<tr class="heading">
-			<td colspan="2">Настройки для Яндекс.Метрика</td>
-		</tr>
-
 		<tr>
 			<td colspan="2">
+				<div class="adm-detail-title">Настройки для Яндекс.Метрика</div>
+
 				<input type="text" size="30" name="yandex_metrika_id"
 					placeholder="ID счетчика Яндекс.Метрика"
 					value="<?= htmlspecialcharsex($currentOptions["yandex_metrika_id"]) ?>"
 					style="width:100%">
-			</td>
-		</tr>
 
-		<tr>
-			<td colspan="2">
 				<textarea name="yandex_metrika_code" rows="10"
 					placeholder="Код счетчика"
 					style="width:100%"><?= htmlspecialcharsex($currentOptions["yandex_metrika_code"]) ?></textarea>
 			</td>
 		</tr>
 
-		<tr class="heading">
-			<td colspan="2">Настройки для Google Analytics</td>
-		</tr>
-
 		<tr>
 			<td colspan="2">
+				<div class="adm-detail-title">Настройки для Google Analytics</div>
+
 				<input type="text" size="30" name="google_analytics_id"
 					placeholder="Идентификатор отслеживания"
 					value="<?= htmlspecialcharsex($currentOptions["google_analytics_id"]) ?>"
 					style="width:100%">
-			</td>
-		</tr>
 
-		<tr>
-			<td colspan="2">
 				<textarea name="google_analytics_code" rows="10"
 					placeholder="Код отслеживания"
 					style="width:100%"><?= htmlspecialcharsex($currentOptions["google_analytics_code"]) ?></textarea>
+
 			</td>
 		</tr>
 
