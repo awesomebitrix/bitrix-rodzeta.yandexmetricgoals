@@ -7,7 +7,7 @@
 
 namespace Rodzeta\Yandexmetricgoals\Targets;
 
-use const \Rodzeta\Yandexmetricgoals\FILE_OPTIONS;
+use const \Rodzeta\Yandexmetricgoals\{FILE_OPTIONS, FILE_JS};
 
 function Update($data) {
 	$targetsData = $data["analytics_targets"];
@@ -21,7 +21,7 @@ function Select() {
 }
 
 function CreateCache($targetsData) {
-	$options = Options\Select();
+	$options = \Rodzeta\Yandexmetricgoals\Options\Select();
 	$counterId = trim($options["yandex_metrika_id"]);
 	$counterIdGoogleAnalytics = trim($options["google_analytics_id"]);
 	$targets = [];
@@ -74,7 +74,7 @@ function CreateCache($targetsData) {
 	}
 
 	file_put_contents(
-		$_SERVER["DOCUMENT_ROOT"] . "/" . FILE_JS,
+		$_SERVER["DOCUMENT_ROOT"] . FILE_JS,
 		count($targets)?
 			('BX.ready(function () { ' . implode("\n", $targets)	. ' });') : ""
 	);
