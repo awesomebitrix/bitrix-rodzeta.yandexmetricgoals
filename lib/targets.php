@@ -10,8 +10,9 @@ namespace Rodzeta\Yandexmetricgoals\Targets;
 use const \Rodzeta\Yandexmetricgoals\FILE_OPTIONS;
 
 function Update($data) {
-	$options = $data["analytics_targets"];
-	\Encoding\PhpArray\Write(FILE_OPTIONS . "/targets.php", $options);
+	$targetsData = $data["analytics_targets"];
+	CreateCache($targetsData);
+	\Encoding\PhpArray\Write(FILE_OPTIONS . "/targets.php", $targetsData);
 }
 
 function Select() {
@@ -19,14 +20,12 @@ function Select() {
 	return is_readable($fname)? include $fname : [];
 }
 
-function CreateCache($targets) {
-	return;
-
-	$basePath = $_SERVER["DOCUMENT_ROOT"];
-	$counterId = trim(Option::get("rodzeta.yandexmetricgoals", "yandex_metrika_id"));
-	$counterIdGoogleAnalytics = trim(Option::get("rodzeta.yandexmetricgoals", "google_analytics_id"));
-	$targets = array();
-	foreach ($targets as $row) {
+function CreateCache($targetsData) {
+	$options = Options\Select();
+	$counterId = trim($options["yandex_metrika_id"]);
+	$counterIdGoogleAnalytics = trim($options["google_analytics_id"]);
+	$targets = [];
+	foreach ($targetsData as $row) {
 		if ($counterId != "" || $counterIdGoogleAnalytics != "") {
 			$event = $row[2];
 			$selector = addslashes($row[0]);
@@ -75,7 +74,7 @@ function CreateCache($targets) {
 	}
 
 	file_put_contents(
-		$basePath . CACHE_NAME,
+		$_SERVER["DOCUMENT_ROOT"] . "/" . FILE_JS,
 		count($targets)?
 			('BX.ready(function () { ' . implode("\n", $targets)	. ' });') : ""
 	);

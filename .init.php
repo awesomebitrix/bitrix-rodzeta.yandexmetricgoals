@@ -16,7 +16,7 @@ define(__NAMESPACE__ . "\FILE_OPTIONS",
 	$_SERVER["DOCUMENT_ROOT"] . "/upload/" . $_SERVER["SERVER_NAME"] . "/." . ID);
 
 define(__NAMESPACE__ . "\FILE_JS",
-	"/upload/" . $_SERVER["SERVER_NAME"] . "/." . ID . "/script.js");
+	"/upload/" . $_SERVER["SERVER_NAME"] . "/" . ID . ".js");
 
 require LIB . "encoding/php-array.php";
 require LIB . "options.php";
