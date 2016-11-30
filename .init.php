@@ -25,14 +25,14 @@ function StorageInit() {
 	}
 }
 
-function Update($key, $data) {
+function Update($data) {
 	return;
 	//...
 
 	\Encoding\PhpArray\Write(FILE_OPTIONS, $options);
 }
 
-function Select($key) {
+function Select() {
 	return is_readable(FILE_OPTIONS)? include FILE_OPTIONS : [];
 }
 
