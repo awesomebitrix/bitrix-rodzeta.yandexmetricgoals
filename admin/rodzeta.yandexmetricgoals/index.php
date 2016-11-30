@@ -30,7 +30,7 @@ StorageInit();
 
 $formSaved = check_bitrix_sessid() && $request->isPost();
 if ($formSaved) {
-	Update($request->getPostList());
+	Options\Update($request->getPostList());
 }
 
 $currentOptions = array_merge([
@@ -38,7 +38,7 @@ $currentOptions = array_merge([
 	"yandex_metrika_code" => "",
 	"google_analytics_id" => "",
 	"google_analytics_code" => "",
-], Select());
+], Options\Select());
 
 ?>
 
